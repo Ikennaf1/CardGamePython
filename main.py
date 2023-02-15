@@ -14,14 +14,10 @@ next_player_index = 0
 
 players = Players()
 players.setup()
-# print(players.players)
 players.set_partnerships()
-# print(players.partnerships)
 scoreboard = players.initialize_scoreboard()
-# print(f"\n{scoreboard}")
-# players.update_scoreboard(scoreboard, 2, 2)
 
-# deal first hands
+# deal first hands and obtain first dealer
 for player in range(len(players.players)):
     card = cards.deal(hand)
     hands.append(hand)
@@ -30,8 +26,7 @@ for player in range(len(players.players)):
         min_val = cards.get_card_value(card[0])
         dealer = players.players[player]
         dealer_index = player
-# print(hands)
-# print(dealer)
+
 current_player_index = dealer_index
 next_player_index = (current_player_index + 1) % len(players.players)
 
@@ -47,9 +42,7 @@ for i in range(len(players.players)):
 print(f"\nDealer: {dealer}")
 
 # Display second player
-print(f"\nSecond player: {players.players[next_player_index]}")
-
-
+# print(f"\nSecond player: {players.players[next_player_index]}")
 
 # Deal the rest of the cards
 i = 0
@@ -58,13 +51,12 @@ while len(cards.deck) > 0:
     i = (i + 1) % len(players.players)
     if min_val > cards.get_card_value(card[0]):
         min_val = cards.get_card_value(card[0])
-# print(hands)
-# print(hands[players.players.index(dealer)])
 
 # Display the cards for each player
 for i in range(len(players.players)):
     print(f"\n{players.players[i]}: {hands[i]}")
 
+# This tracks the number of plays in one trick which is usually 4 plays
 hands_per_trick = 0
 tricks = 0
 
@@ -80,11 +72,6 @@ while len(hands[current_player_index]) > 0:
     has_suit = False
     cards_played = []
 
-    # hands_per_trick = (hands_per_trick + 1) % len(players.players)
-
-    # if hands_per_trick == 0:
-    #     tricks = tricks + 1
-
     print(f"\n{current_player}'s turn: ")
     print(f"\n{current_player}'s hand: {hands[i]}")
 
@@ -99,11 +86,9 @@ while len(hands[current_player_index]) > 0:
             print(f"\n{current_player}, invalid card selected. Try again.")
             play_card_index = None
             continue
-
+        
+        # The card that current player selected to play
         play_card = hands[i][play_card_index]
-
-        if hands_per_trick == 0:
-            current_suit = play_card[1]
     
         if current_suit is not None and play_card[1] != current_suit:
             for card in hands[i]:
@@ -114,13 +99,13 @@ while len(hands[current_player_index]) > 0:
             print(f"\n{current_player}, you must follow suit.")
             play_card = None
             continue
-
+        
+        # Tracks the cards played to get the highest and lowest values
         if max_card < cards.get_card_value(play_card[0]):
             max_card = cards.get_card_value(play_card[0])
             trick_winner = current_player_index
         if min_card > cards.get_card_value(play_card[0]):
             min_card = cards.get_card_value(play_card[0])
-        # print(f"{min_card}\t{max_card}\t{hands_per_trick}")
         
     if hands_per_trick == 3:
         transfer = input(f"\n{players.players[trick_winner]} would you like to transfer tricks to another player?\nEnter 'y' for yes or just press enter to skip: ")
@@ -142,7 +127,8 @@ while len(hands[current_player_index]) > 0:
     print(f"\n{current_player} plays: {play_card}")
 
     # update the current suit
-    current_suit = play_card[1]
+    if hands_per_trick == 0:
+        current_suit = play_card[1]
 
     # update the current player index
     current_player_index = (current_player_index + 1) % len(players.players)
