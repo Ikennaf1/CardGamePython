@@ -58,3 +58,24 @@ class Players:
         Set up partnerships
         """
         pass
+
+    def initialize_scoreboard(self):
+        """
+        Initialize the scoreboard
+        """
+        scoreboard = [[0, 0] for _ in range(len(self.players))]
+        return scoreboard
+    
+    def update_scoreboard(self, scoreboard = [], player_id = 0, points = 0):
+        """
+        Updates the ScoreBoard
+        """
+        scoreboard[player_id][0] = scoreboard[player_id][0] + points
+        scoreboard[player_id][1] = scoreboard[player_id][1] + 1
+
+    def transfer_win(self, _from = 0, _to = 0):
+        """
+        Give win points to another user
+        """
+        pass
+
