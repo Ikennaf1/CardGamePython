@@ -66,16 +66,41 @@ class Players:
         scoreboard = [[0, 0] for _ in range(len(self.players))]
         return scoreboard
     
+    def can_update_score(self, scoreboard, player_id):
+        """
+        Checks if the player can have scores updated
+        """
+        if scoreboard[player_id][1] < 3:
+            return True
+        
+        return False
+    
     def update_scoreboard(self, scoreboard = [], player_id = 0, points = 0):
         """
         Updates the ScoreBoard
         """
-        scoreboard[player_id][0] = scoreboard[player_id][0] + points
-        scoreboard[player_id][1] = scoreboard[player_id][1] + 1
+        if self.can_update_score(scoreboard, player_id):
+            scoreboard[player_id][0] = scoreboard[player_id][0] + points
+            scoreboard[player_id][1] = scoreboard[player_id][1] + 1
+        else:
+            print(f"\n{self.players[player_id]} maximum tricks reached.")
+            self.transfer_win(scoreboard, points)
 
-    def transfer_win(self, _from = 0, _to = 0):
+    def transfer_win(self, scoreboard = [], points = 0):
         """
         Give win points to another user
         """
-        pass
+        selected_player = None
+
+        while selected_player is None:
+            for i in range(len(self.players)):
+                print(f"\n{i} {self.players[i]}")
+            player = input("\nSelect player to transfer points to by index e.g. '0': ")
+
+            if int(player) not in range(len(self.players)):
+                print("\nWrong index. Choose again")
+                continue
+            selected_player = int(player)
+        
+        self.update_scoreboard(scoreboard, selected_player, points)
 

@@ -101,6 +101,9 @@ while len(hands[current_player_index]) > 0:
             continue
 
         play_card = hands[i][play_card_index]
+
+        if hands_per_trick == 0:
+            current_suit = play_card[1]
     
         if current_suit is not None and play_card[1] != current_suit:
             for card in hands[i]:
@@ -120,7 +123,11 @@ while len(hands[current_player_index]) > 0:
         # print(f"{min_card}\t{max_card}\t{hands_per_trick}")
         
     if hands_per_trick == 3:
-        players.update_scoreboard(scoreboard, trick_winner, min_card)
+        transfer = input(f"\n{players.players[trick_winner]} would you like to transfer tricks to another player?\nEnter 'y' for yes or just press enter to skip: ")
+        if transfer == 'y' or transfer == 'Y':
+            players.transfer_win(scoreboard, min_card)
+        else:
+            players.update_scoreboard(scoreboard, trick_winner, min_card)
         min_card = 32
         max_card = 0
         print(f"\n{scoreboard}")
