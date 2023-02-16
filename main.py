@@ -119,21 +119,28 @@ while len(hands[current_player_index]) > 0:
         j = 0
         current_suit = None
         has_suit = False
+        # List players to transfer points to
+        print(f"\n{players.players[trick_winner]} would you like to transfer tricks to another player?\nEnter index of player or just press enter to skip: ")
         for player in players.players:
             print(f"{j} {player}")
             j += 1
-        transfer = input(f"\n{players.players[trick_winner]} would you like to transfer tricks to another player?\nEnter index of player or just press enter to skip: ")
+        transfer = input()
         if transfer != '':
             to = int(transfer)
             players.transfer_win(scoreboard, to, min_card)
             trick_winner = to
         else:
             players.update_scoreboard(scoreboard, trick_winner, min_card)
+        print(f"\n{players.players[trick_winner]} wins with {min_card} points")
+        # print(f"\nTotal points:\n\t{scoreboard}")
+        print("Current Score:")
+        j = 0
+        for score in scoreboard:
+            print(f"{j}. {players.players[j]}\t{score[0]}")
+            j += 1
+        current_player_index = trick_winner
         min_card = 32
         max_card = 0
-        print(f"\n{players.players[trick_winner]} wins with {min_card} points")
-        print(f"\nTotal points:\n\t{scoreboard}")
-        current_player_index = trick_winner
         continue
         
     hands_per_trick = (hands_per_trick + 1) % len(players.players)
