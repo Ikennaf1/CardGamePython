@@ -51,3 +51,13 @@ class Cards:
         Gets the card value based on the card number
         """
         return self.__values[card_number]
+    
+    def print_cards_pretty(self, cards = []):
+        j = 0
+        x = 0
+        endline = ""
+        for card in cards:
+            print(f"\t{j}: {card}", end=endline)
+            j += 1
+            x = (x + 1) % 4
+            endline = "\n" if x == 3 else ""

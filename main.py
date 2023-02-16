@@ -54,7 +54,8 @@ while len(cards.deck) > 0:
 
 # Display the cards for each player
 for i in range(len(players.players)):
-    print(f"\n{players.players[i]}: {hands[i]}")
+    print(f"\n{players.players[i]}")
+    cards.print_cards_pretty(hands[i])
 
 # This tracks the number of plays in one trick which is usually 4 plays
 hands_per_trick = 0
@@ -73,7 +74,9 @@ while len(hands[current_player_index]) > 0:
     cards_played = []
 
     print(f"\n{current_player}'s turn: ")
-    print(f"\n{current_player}'s hand: {hands[i]}")
+    print(f"\n{current_player}'s hand:")
+    cards.print_cards_pretty(hands[i])
+    
 
     # allow the player to select a card from their hand
     play_card = None
