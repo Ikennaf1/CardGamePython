@@ -86,21 +86,9 @@ class Players:
             print(f"\n{self.players[player_id]} maximum tricks reached.")
             self.transfer_win(scoreboard, points)
 
-    def transfer_win(self, scoreboard = [], points = 0):
+    def transfer_win(self, scoreboard = [], to = 0, points = 0):
         """
         Give win points to another user
-        """
-        selected_player = None
-
-        while selected_player is None:
-            for i in range(len(self.players)):
-                print(f"\n{i} {self.players[i]}")
-            player = input("\nSelect player to transfer points to by index e.g. '0': ")
-
-            if int(player) not in range(len(self.players)):
-                print("\nWrong index. Choose again")
-                continue
-            selected_player = int(player)
-        
-        self.update_scoreboard(scoreboard, selected_player, points)
+        """        
+        self.update_scoreboard(scoreboard, to, points)
 

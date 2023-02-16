@@ -63,13 +63,13 @@ tricks = 0
 
 max_card = 0
 min_card = 32
+current_suit = None
 
 # Game Play
 while len(hands[current_player_index]) > 0:
     # print the current player and their hand
     i = current_player_index
     current_player = players.players[i]
-    current_suit = None
     has_suit = False
     cards_played = []
 
@@ -101,7 +101,12 @@ while len(hands[current_player_index]) > 0:
         if has_suit:
             print(f"\n{current_player}, you must follow suit.")
             play_card = None
+            play_card_index = None
+            has_suit = False
             continue
+
+        if current_suit is None:
+            current_suit = play_card[1]
         
         # Tracks the cards played to get the highest and lowest values
         if max_card < cards.get_card_value(play_card[0]):
@@ -111,14 +116,25 @@ while len(hands[current_player_index]) > 0:
             min_card = cards.get_card_value(play_card[0])
         
     if hands_per_trick == 3:
-        transfer = input(f"\n{players.players[trick_winner]} would you like to transfer tricks to another player?\nEnter 'y' for yes or just press enter to skip: ")
-        if transfer == 'y' or transfer == 'Y':
-            players.transfer_win(scoreboard, min_card)
+        j = 0
+        current_suit = None
+        has_suit = False
+        for player in players.players:
+            print(f"{j} {player}")
+            j += 1
+        transfer = input(f"\n{players.players[trick_winner]} would you like to transfer tricks to another player?\nEnter index of player or just press enter to skip: ")
+        if transfer != '':
+            to = int(transfer)
+            players.transfer_win(scoreboard, to, min_card)
+            trick_winner = to
         else:
             players.update_scoreboard(scoreboard, trick_winner, min_card)
         min_card = 32
         max_card = 0
-        print(f"\n{scoreboard}")
+        print(f"\n{players.players[trick_winner]} wins with {min_card} points")
+        print(f"\nTotal points:\n\t{scoreboard}")
+        current_player_index = trick_winner
+        continue
         
     hands_per_trick = (hands_per_trick + 1) % len(players.players)
 
