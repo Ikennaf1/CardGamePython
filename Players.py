@@ -66,11 +66,11 @@ class Players:
         scoreboard = [[0, 0] for _ in range(len(self.players))]
         return scoreboard
     
-    def can_update_score(self, scoreboard, player_id):
+    def can_update_score(self, scoreboard, player_id, last_card = False):
         """
         Checks if the player can have scores updated
         """
-        if scoreboard[player_id][1] < 3:
+        if scoreboard[player_id][1] < 3 or last_card == True:
             return True
         
         return False
@@ -82,9 +82,9 @@ class Players:
         if self.can_update_score(scoreboard, player_id):
             scoreboard[player_id][0] = scoreboard[player_id][0] + points
             scoreboard[player_id][1] = scoreboard[player_id][1] + 1
-        else:
-            print(f"\n{self.players[player_id]} maximum tricks reached.")
-            self.transfer_win(scoreboard, points)
+        # else:
+        #     print(f"\n{self.players[player_id]} maximum tricks reached.")
+        #     self.transfer_win(scoreboard, points)
 
     def transfer_win(self, scoreboard = [], to = 0, points = 0):
         """

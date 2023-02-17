@@ -57,7 +57,7 @@ class Cards:
         x = 0
         endline = ""
         for card in cards:
-            print(f"\t{j}: {card}", end=endline)
+            print(f"{j}: {card}\t", end=endline)
             j += 1
             x = (x + 1) % 4
             endline = "\n" if x == 3 else ""
