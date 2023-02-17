@@ -5,9 +5,6 @@ game_round = 1
 quit_game = 0
 round_winner = None
 
-# cards = Cards()
-# cards.shuffle()
-
 hands = []
 hand = []
 min_val = 30
@@ -21,45 +18,9 @@ players.setup()
 players.set_partnerships()
 scoreboard = players.initialize_scoreboard()
 
-# # deal first hands and obtain first dealer
-# for player in range(len(players.players)):
-#     card = cards.deal(hand)
-#     hands.append(hand)
-#     hand = []
-#     if min_val > cards.get_card_value(card[0]):
-#         min_val = cards.get_card_value(card[0])
-#         dealer = players.players[player]
-#         dealer_index = player
-
-# current_player_index = dealer_index
-# next_player_index = (current_player_index + 1) % len(players.players)
-
 # print partnerships
 for player, partner in players.partnerships.items():
     print(f"\n{player} & {partner}")
-
-# Display the preliminary round cards
-# for i in range(len(players.players)):
-#     print(f"\n{players.players[i]}: {hands[i]}")
-
-# Display the dealer
-# print(f"\nDealer: {dealer}")
-
-# Display second player
-# print(f"\nSecond player: {players.players[next_player_index]}")
-
-# Deal the rest of the cards
-# i = 0
-# while len(cards.deck) > 0:
-#     card = cards.deal(hands[i])
-#     i = (i + 1) % len(players.players)
-#     if min_val > cards.get_card_value(card[0]):
-#         min_val = cards.get_card_value(card[0])
-
-# # Display the cards for each player
-# for i in range(len(players.players)):
-#     print(f"\n{players.players[i]}")
-#     cards.print_cards_pretty(hands[i])
 
 # This tracks the number of plays in one trick which is usually 4 plays
 hands_per_trick = 0
