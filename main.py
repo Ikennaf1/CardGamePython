@@ -183,7 +183,7 @@ while game_round > 0 and quit_game == 0:
             else:
                 to = trick_winner
                 while players.can_update_score(scoreboard, to, (len(cards_played) >= (52 - len(players.players)))) == False:
-                    print(f"\n{len(cards_played)}\t{len(players.players)}")
+                    # print(f"\n{len(cards_played)}\t{len(players.players)}")
                     print(f"\n{players.players[to]} maximum tricks reached. Choose another player.")
                     to = int(input())
                 players.update_scoreboard(scoreboard, to, min_card)
