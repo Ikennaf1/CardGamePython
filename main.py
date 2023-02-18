@@ -189,6 +189,34 @@ while game_round > 0 and quit_game == 0:
             round_winner = j
         j += 1
     print(f"\nRound {game_round} winner is: {players.players[round_winner]}")
+    
+    max_score = 0
+    for score in scoreboard:
+        if score[0] > max_score:
+            max_score = score[0]
+    if max_score >= 60:
+        check_sudden_death = True
+            
+    if check_sudden_death is True:
+        sudden_death_msg = "\nSudden death"
+        match game_round:
+            case 1:
+                if max_score >= 60:
+                    print(sudden_death_msg)
+                    sudden_death = True
+            case 2:
+                if max_score >= 120:
+                    print(sudden_death_msg)
+                    sudden_death = True
+            case 3:
+                if max_score >= 180:
+                    print(sudden_death_msg)
+                    sudden_death = True
+            case _:
+                sudden_death = False
+                pass
+    if sudden_death == True:
+        break
 
     # Quit or continue to next round
     quit_game = int(input("\n0. Continue\t1. Quit\n"))
