@@ -16,6 +16,10 @@ for i in range(4):
     name = input(f"Enter the name of Player {i+1}: ")
     players.append(name)
 
+all_points = [0, 0, 0, 0]
+quit_game = 0
+game_round = 0
+
 
 # Create player partnerships
 partnerships = {players[0]:players[2], players[1]:players[3]}
@@ -160,6 +164,8 @@ def play_game(players, dealer, player_hands, partnerships, second_player, player
         # display the winner and the points awarded
         print(f"{winner} wins this round wins with {winning_card} and is awarded {points} points.")
 
+        # print(f"Current points: {all_points}")
+
         # Display the updated hand for each player
         print("\nUpdated hands for each player:")
         for player in players:
@@ -171,6 +177,8 @@ def play_game(players, dealer, player_hands, partnerships, second_player, player
             if check_player_trick_hand(winner):
                 # keep the cards
                 player_trick_hand[winner] += cards_played
+                # Award points to the winner
+                all_points[players.index(winner)] += points
                 # Display which player currently has the cards_played
                 print(f"{winner} now has the cards_played.")
                 current_player = winner
@@ -184,6 +192,8 @@ def play_game(players, dealer, player_hands, partnerships, second_player, player
                     else:
                         print(f"{recipient_name} is not a valid player. Try again.")
                 player_trick_hand[recipient] += cards_played
+                # Award points to the winner
+                all_points[players.index(recipient)] += points
                 current_player = recipient
         else:
             # give the cards to another player
@@ -196,10 +206,13 @@ def play_game(players, dealer, player_hands, partnerships, second_player, player
                 else:
                     print(f"{recipient_name} is not a valid player. Try again.")
             player_trick_hand[recipient] += cards_played
+            # Award points to the winner
+            all_points[players.index(recipient)] += points
             current_player = recipient
 
             # Display which player currently has the cards_played
             print(f"{recipient} now has the trick.")
+            print(f"Current standing: {all_points}")
 
         # keep track of the cards played by each player
         cards_played = {}
@@ -304,6 +317,8 @@ def play_game(players, dealer, player_hands, partnerships, second_player, player
                 if check_player_trick_hand(winner):
                     # keep the cards
                     player_trick_hand[winner] += cards_played
+                    # Award points to the winner
+                    all_points[players.index(winner)] += points
                     # Display which player currently has the cards_played
                     print(f"{winner} now has the cards_played.")
                     current_player = winner
@@ -317,6 +332,8 @@ def play_game(players, dealer, player_hands, partnerships, second_player, player
                         else:
                             print(f"{recipient_name} is not a valid player. Try again.")
                     player_trick_hand[recipient] += cards_played
+                    # Award points to the winner
+                    all_points[players.index(recipient)] += points
                     current_player = recipient
             else:
                 # give the cards to another player
@@ -329,10 +346,13 @@ def play_game(players, dealer, player_hands, partnerships, second_player, player
                     else:
                         print(f"{recipient_name} is not a valid player. Try again.")
                 player_trick_hand[recipient] += cards_played
+                # Award points to the winner
+                all_points[players.index(recipient)] += points
                 current_player = recipient
 
                 # Display which player currently has the cards_played
                 print(f"{recipient} now has the trick.")
+            print(f"Current standing: {all_points}")
 
             # keep track of the cards played by each player
             cards_played = {}
@@ -340,6 +360,7 @@ def play_game(players, dealer, player_hands, partnerships, second_player, player
             for player_name, player_cards in cards_played.items():
                 print(f"{player_name}: {player_cards}")
 
+        
         print("Playing trick", trick + 1)
 
 def check_player_trick_hand(the_player):
@@ -349,4 +370,28 @@ def check_player_trick_hand(the_player):
         print(f"\n{players[players.index(the_player)]} maximum tricks reached. Please choose another player.")
         return False
 
-play_game(players, dealer, player_hands, partnerships, second_player, player)
+def check_sudden_death(the_game_round, points = []):
+    max_point = max(points)
+    if the_game_round == 1 and max_point >= 60:
+        print("\nSudden Death!!!")
+        return True
+    elif the_game_round == 2 and max_point >= 120:
+        print("\nSudden Death!!!")
+        return True
+    elif the_game_round == 3 and max_point >= 180:
+        print("\nSudden Death!!!")
+        return True
+    else:
+        return False
+
+while quit_game == 0:
+    game_round += 1
+    play_game(players, dealer, player_hands, partnerships, second_player, player)
+    if check_sudden_death(game_round, all_points) == False:
+        continue_playing = input("\nDo you wish to continue game? (yes/no) ")
+        if continue_playing == "yes":
+            quit_game = 0
+        else:
+            quit_game = 1
+    else:
+        quit_game = 1
