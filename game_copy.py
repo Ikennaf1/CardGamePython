@@ -74,7 +74,7 @@ print(f"Player to the left: {second_player}")
 print("\n")
 # Display the cards for each player
 for player, hand in player_hands.items():
-    print(f"{player}: {hand}")
+    print(f"\n{player}:\n{hand}")
 
 
 def play_game(players, dealer, player_hands, partnerships, second_player, player):
@@ -83,8 +83,29 @@ def play_game(players, dealer, player_hands, partnerships, second_player, player
         values = {'2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '7': 7, '8': 8, '9': 9, '10': 10, 'Jack': 15, 'Queen': 20,
               'King': 25, 'Ace': 30}
 
+        ################################################################################
+        fresh_round = True
+        if fresh_round == True:
+            # Shuffle the deck
+            random.shuffle(deck)
+            all_points = [0, 0, 0, 0]
+
+            # Deal the remaining cards to each player
+            player_hands = {player: [] for player in players}
+            player_trick_hand = {player: [] for player in players}
+            start = 0
+            for i in range(13):
+                for j, player in enumerate(players):
+                    if start + j >= len(deck):
+                        break
+                    player_hands[player].append(deck[start + j])
+                start += 4
+            fresh_round = False
+        ################################################################################
+
         # keep track of the cards that have been played
         cards_played = []
+        cards_played_with_player_names = {}
         current_player = second_player
         current_suit = None
         winner = None
@@ -98,7 +119,15 @@ def play_game(players, dealer, player_hands, partnerships, second_player, player
 
             # print the current player and their hand
             print(f"\n{current_player}'s turn:")
-            print(f"{current_player}'s hand: {player_hands[current_player]}")
+            print(f"{current_player}'s hand:")
+            h = 0
+            hi = 0
+            endline = ""
+            for hand in player_hands[current_player]:
+                print(f"{hi}: {hand}\t", end=endline)
+                hi += 1
+                h = (h + 1) % 4
+                endline = "\n" if h == 3 else ""
 
             # allow the player to select a card from their hand
             selected_card = None
@@ -128,6 +157,7 @@ def play_game(players, dealer, player_hands, partnerships, second_player, player
 
             # add the selected card to the list of cards that have been played
             cards_played.append(selected_card)
+            cards_played_with_player_names[current_player] = selected_card
 
             # print the selected card
             print(f"{current_player} plays: {selected_card}")
@@ -159,17 +189,21 @@ def play_game(players, dealer, player_hands, partnerships, second_player, player
                 cards_played_by_player[player] = []
 
             # print the final list of cards that have been played
-            print(f"\nCards played: {cards_played}")
+            print(f"\nCards played:")
+            for player, card in cards_played_with_player_names.items():
+                print(f"\t{player}: {card}")
 
         # display the winner and the points awarded
-        print(f"{winner} wins this round wins with {winning_card} and is awarded {points} points.")
+        if fresh_round == False:
+            print(f"{winner} wins this round wins with {winning_card} and is awarded {points} points.")
+        # print(f"{winner} wins this round wins with {winning_card} and is awarded {points} points.")
 
         # print(f"Current points: {all_points}")
 
         # Display the updated hand for each player
         print("\nUpdated hands for each player:")
         for player in players:
-            print(f"{player}: {player_hands[player]}")
+            print(f"\n{player}:\t{player_hands[player]}")
 
         # ask the winner if they want to keep the cards or give them to another player
         keep_cards = input(f"{winner}, do you want to keep the cards (yes/no)? ")
@@ -212,7 +246,9 @@ def play_game(players, dealer, player_hands, partnerships, second_player, player
 
             # Display which player currently has the cards_played
             print(f"{recipient} now has the trick.")
-            print(f"Current standing: {all_points}")
+            print(f"Current standing:")
+            for player in players:
+                print(f"{player}:\t{all_points[players.index(player)]}")
 
         # keep track of the cards played by each player
         cards_played = {}
@@ -222,13 +258,14 @@ def play_game(players, dealer, player_hands, partnerships, second_player, player
             print(f"{player_name}: {player_cards}")
 
 
-        for trick in range(11):
+        for trick in range(12):
             # Keep track of the card values
             values = {'2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '7': 7, '8': 8, '9': 9, '10': 10, 'Jack': 15, 'Queen': 20,
                       'King': 25, 'Ace': 30}
 
             # keep track of the cards that have been played
             cards_played = []
+            cards_played_with_player_names = {}
             current_suit = None
             winner = None
             winning_card = None
@@ -240,12 +277,21 @@ def play_game(players, dealer, player_hands, partnerships, second_player, player
 
                 # print the current player and their hand
                 print(f"\n{current_player}'s turn:")
-                print(f"{current_player}'s hand: {player_hands[current_player]}")
+                print(f"{current_player}'s hand:")
+                # print(f"{current_player}'s hand: {player_hands[current_player]}")
+                h = 0
+                hi = 0
+                endline = ""
+                for hand in player_hands[current_player]:
+                    print(f"{hi}: {hand}\t", end=endline)
+                    hi += 1
+                    h = (h + 1) % 4
+                    endline = "\n" if h == 3 else ""
 
                 # allow the player to select a card from their hand
                 selected_card = None
                 while selected_card is None:
-                    selected_card_index = int(input(f"{current_player}, select a card to play by index (e.g. '0'): "))
+                    selected_card_index = int(input(f"\n{current_player}, select a card to play by index (e.g. '0'): "))
                     if selected_card_index >= 0 and selected_card_index < len(player_hands[current_player]):
                         selected_card = player_hands[current_player][selected_card_index]
 
@@ -270,6 +316,7 @@ def play_game(players, dealer, player_hands, partnerships, second_player, player
 
                 # add the selected card to the list of cards that have been played
                 cards_played.append(selected_card)
+                cards_played_with_player_names[current_player] = selected_card
 
                 # print the selected card
                 print(f"{current_player} plays: {selected_card}")
@@ -301,7 +348,9 @@ def play_game(players, dealer, player_hands, partnerships, second_player, player
                     cards_played_by_player[player] = []
 
                 # print the final list of cards that have been played
-                print(f"\nCards played: {cards_played}")
+                print(f"\nCards played:")
+                for player, card in cards_played_with_player_names.items():
+                    print(f"\t{player}: {card}")
 
             # display the winner and the points awarded
             print(f"{winner} wins this round wins with {winning_card} and is awarded {points} points.")
@@ -309,11 +358,14 @@ def play_game(players, dealer, player_hands, partnerships, second_player, player
             # Display the updated hand for each player
             print("\nUpdated hands for each player:")
             for player in players:
-                print(f"{player}: {player_hands[player]}")
+                print(f"\n{player}:\t{player_hands[player]}")
 
             # ask the winner if they want to keep the cards or give them to another player
             keep_cards = input(f"{winner}, do you want to keep the cards (yes/no)? ")
             if keep_cards.lower() == 'yes':
+                # if trick == 11:
+                #     second_player = winner
+                #     break
                 if check_player_trick_hand(winner):
                     # keep the cards
                     player_trick_hand[winner] += cards_played
@@ -327,6 +379,10 @@ def play_game(players, dealer, player_hands, partnerships, second_player, player
                     while recipient is None:
                         recipient_name = input(f"{winner}, select the player to give the cards to: ")
                         if recipient_name in players:
+                            # if trick == 11:
+                            #     recipient = recipient_name
+                            #     second_player = recipient_name
+                            #     break
                             if check_player_trick_hand(recipient_name):
                                 recipient = recipient_name
                         else:
@@ -341,10 +397,18 @@ def play_game(players, dealer, player_hands, partnerships, second_player, player
                 while recipient is None:
                     recipient_name = input(f"{winner}, select the player to give the cards to: ")
                     if recipient_name in players:
+                        # if trick == 11:
+                        #         recipient = recipient_name
+                        #         second_player = recipient_name
+                        #         break
                         if check_player_trick_hand(recipient_name):
                             recipient = recipient_name
                     else:
                         print(f"{recipient_name} is not a valid player. Try again.")
+                # if trick == 11:
+                #     # recipient = recipient_name
+                #     second_player = recipient_name
+                #     break
                 player_trick_hand[recipient] += cards_played
                 # Award points to the winner
                 all_points[players.index(recipient)] += points
@@ -352,16 +416,22 @@ def play_game(players, dealer, player_hands, partnerships, second_player, player
 
                 # Display which player currently has the cards_played
                 print(f"{recipient} now has the trick.")
-            print(f"Current standing: {all_points}")
+            print(f"Current standing:")
+            for player in players:
+                print(f"{player}:\t{all_points[players.index(player)]}")
 
             # keep track of the cards played by each player
             cards_played = {}
 
             for player_name, player_cards in cards_played.items():
                 print(f"{player_name}: {player_cards}")
+            
+            # if trick == 11:
+            #     break
 
         
         print("Playing trick", trick + 1)
+        # trick = None
 
 def check_player_trick_hand(the_player):
     if len(player_trick_hand[the_player]) < 12:
@@ -381,7 +451,11 @@ def check_sudden_death(the_game_round, points = []):
     elif the_game_round == 3 and max_point >= 180:
         print("\nSudden Death!!!")
         return True
+    elif the_game_round == 4 and max_point >= 240:
+        print("\nSudden Death!!!")
+        return True
     else:
+        print(f"\nRound{game_round}:\tNo sudden death. Continue.")
         return False
 
 while quit_game == 0:
