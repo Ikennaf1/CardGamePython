@@ -366,9 +366,9 @@ def play_game(players, dealer, player_hands, partnerships, second_player, player
             # ask the winner if they want to keep the cards or give them to another player
             keep_cards = input(f"{winner}, do you want to keep the cards (yes/no)? ")
             if keep_cards.lower() == 'yes':
-                # if trick == 11:
-                #     second_player = winner
-                #     break
+                if trick == 11:
+                    second_player = winner
+                    break
                 if check_player_trick_hand(winner):
                     # keep the cards
                     player_trick_hand[winner] += cards_played
@@ -382,10 +382,10 @@ def play_game(players, dealer, player_hands, partnerships, second_player, player
                     while recipient is None:
                         recipient_name = input(f"{winner}, select the player to give the cards to: ")
                         if recipient_name in players:
-                            # if trick == 11:
-                            #     recipient = recipient_name
-                            #     second_player = recipient_name
-                            #     break
+                            if trick == 11:
+                                recipient = recipient_name
+                                second_player = recipient_name
+                                break
                             if check_player_trick_hand(recipient_name):
                                 recipient = recipient_name
                         else:
@@ -400,18 +400,18 @@ def play_game(players, dealer, player_hands, partnerships, second_player, player
                 while recipient is None:
                     recipient_name = input(f"{winner}, select the player to give the cards to: ")
                     if recipient_name in players:
-                        # if trick == 11:
-                        #         recipient = recipient_name
-                        #         second_player = recipient_name
-                        #         break
+                        if trick == 11:
+                                recipient = recipient_name
+                                second_player = recipient_name
+                                break
                         if check_player_trick_hand(recipient_name):
                             recipient = recipient_name
                     else:
                         print(f"{recipient_name} is not a valid player. Try again.")
-                # if trick == 11:
-                #     # recipient = recipient_name
-                #     second_player = recipient_name
-                #     break
+                if trick == 11:
+                    # recipient = recipient_name
+                    second_player = recipient_name
+                    break
                 player_trick_hand[recipient] += cards_played
                 # Award points to the winner
                 all_points[players.index(recipient)] += points
@@ -429,8 +429,8 @@ def play_game(players, dealer, player_hands, partnerships, second_player, player
             for player_name, player_cards in cards_played.items():
                 print(f"{player_name}: {player_cards}")
             
-            # if trick == 11:
-            #     break
+            if trick == 11:
+                break
 
         
         print("Playing trick", trick + 1)
