@@ -199,6 +199,9 @@ def play_game(players, dealer, player_hands, partnerships, second_player, player
         # print(f"{winner} wins this round wins with {winning_card} and is awarded {points} points.")
 
         # print(f"Current points: {all_points}")
+        # print(f"Current standing:")
+        # for player in players:
+        #     print(f"{player}:\t{all_points[players.index(player)]}")
 
         # Display the updated hand for each player
         print("\nUpdated hands for each player:")
@@ -246,9 +249,9 @@ def play_game(players, dealer, player_hands, partnerships, second_player, player
 
             # Display which player currently has the cards_played
             print(f"{recipient} now has the trick.")
-            print(f"Current standing:")
-            for player in players:
-                print(f"{player}:\t{all_points[players.index(player)]}")
+        print(f"Current standing:")
+        for player in players:
+            print(f"{player}:\t{all_points[players.index(player)]}")
 
         # keep track of the cards played by each player
         cards_played = {}
