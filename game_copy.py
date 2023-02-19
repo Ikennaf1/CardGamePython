@@ -83,25 +83,25 @@ def play_game(players, dealer, player_hands, partnerships, second_player, player
         values = {'2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '7': 7, '8': 8, '9': 9, '10': 10, 'Jack': 15, 'Queen': 20,
               'King': 25, 'Ace': 30}
 
-        ################################################################################
-        fresh_round = True
-        if fresh_round == True:
-            # Shuffle the deck
-            random.shuffle(deck)
-            all_points = [0, 0, 0, 0]
+        ########################################################################
+        # fresh_round = True
+        # if fresh_round == True:
+        #     # Shuffle the deck
+        #     random.shuffle(deck)
+        #     all_points = [0, 0, 0, 0]
 
-            # Deal the remaining cards to each player
-            player_hands = {player: [] for player in players}
-            player_trick_hand = {player: [] for player in players}
-            start = 0
-            for i in range(13):
-                for j, player in enumerate(players):
-                    if start + j >= len(deck):
-                        break
-                    player_hands[player].append(deck[start + j])
-                start += 4
-            fresh_round = False
-        ################################################################################
+        #     # Deal the remaining cards to each player
+        #     player_hands = {player: [] for player in players}
+        #     player_trick_hand = {player: [] for player in players}
+        #     start = 0
+        #     for i in range(13):
+        #         for j, player in enumerate(players):
+        #             if start + j >= len(deck):
+        #                 break
+        #             player_hands[player].append(deck[start + j])
+        #         start += 4
+        #     fresh_round = False
+        ########################################################################
 
         # keep track of the cards that have been played
         cards_played = []
@@ -194,9 +194,9 @@ def play_game(players, dealer, player_hands, partnerships, second_player, player
                 print(f"\t{player}: {card}")
 
         # display the winner and the points awarded
-        if fresh_round == False:
-            print(f"{winner} wins this round wins with {winning_card} and is awarded {points} points.")
-        # print(f"{winner} wins this round wins with {winning_card} and is awarded {points} points.")
+        # if fresh_round == False:
+        #     print(f"{winner} wins this round wins with {winning_card} and is awarded {points} points.")
+        print(f"{winner} wins this round wins with {winning_card} and is awarded {points} points.")
 
         # print(f"Current points: {all_points}")
         # print(f"Current standing:")
@@ -438,6 +438,7 @@ def play_game(players, dealer, player_hands, partnerships, second_player, player
 
 def check_player_trick_hand(the_player):
     if len(player_trick_hand[the_player]) < 12:
+        print(player_trick_hand[the_player])
         return True
     else:
         print(f"\n{players[players.index(the_player)]} maximum tricks reached. Please choose another player.")
