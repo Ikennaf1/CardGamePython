@@ -438,7 +438,7 @@ def play_game(players, dealer, player_hands, partnerships, second_player, player
 
 def check_player_trick_hand(the_player):
     if len(player_trick_hand[the_player]) < 12:
-        print(player_trick_hand[the_player])
+        # print(player_trick_hand[the_player])
         return True
     else:
         print(f"\n{players[players.index(the_player)]} maximum tricks reached. Please choose another player.")
