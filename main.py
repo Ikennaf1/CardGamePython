@@ -19,6 +19,7 @@ players.set_partnerships()
 scoreboard = players.initialize_scoreboard()
 
 # print partnerships
+print("\nPlayer Partnerships:")
 for player, partner in players.partnerships.items():
     print(f"\n{player} & {partner}")
 
@@ -32,7 +33,10 @@ current_suit = None
 
 # Game Play
 while game_round > 0 and quit_game == 0:
-    print(f"\nROUND {game_round}\n")
+    if game_round == 1:
+        print("\nPreliminary Round\n")
+    else:
+        print(f"\nROUND {game_round}\n")
 
     cards = Cards()
     cards.shuffle()
@@ -50,6 +54,7 @@ while game_round > 0 and quit_game == 0:
 
     current_player_index = dealer_index
     next_player_index = (current_player_index + 1) % len(players.players)
+    next_player = players.players[next_player_index]
 
     # Display preliminary hands
     for i in range(len(players.players)):
@@ -62,6 +67,7 @@ while game_round > 0 and quit_game == 0:
     
     # Display dealer
     print(f"\nDealer: {dealer}")
+    print(f"\nPlayer to the left: {next_player}")
 
     i = 0
     while len(cards.deck) > 0:
@@ -71,6 +77,7 @@ while game_round > 0 and quit_game == 0:
             min_val = cards.get_card_value(card[0])
 
     # Display the cards for each player
+    print("\nUpdated Hands:")
     for i in range(len(players.players)):
         print(f"\n{players.players[i]}")
         cards.print_cards_pretty(hands[i])
@@ -125,54 +132,94 @@ while game_round > 0 and quit_game == 0:
                 min_card = cards.get_card_value(play_card[0])
             
         if hands_per_trick == 3:
-            j = 0
             current_suit = None
             has_suit = False
+            # Remove the selected card from the player's hand
+            #   and add the selected card to the list of cards that have been played
+            card_played = {}
+            card_played[current_player] = hands[i].pop(play_card_index)
+            cards_played.append(card_played)
+
+            # Print cards played
+            print("\nCards Played:")
+            for each in cards_played:
+                for played, card in each.items():
+                    print(f"{played}:\t{card}")
+            
             # List players to transfer points to
-            print(f"\n{players.players[trick_winner]} would you like to transfer tricks to another player?\nEnter index of player or just press enter to skip: ")
-            for player in players.players:
-                print(f"{j} {player}")
-                j += 1
-            transfer = input()
-            if transfer != '':
-                to = int(transfer)
+            print(f"\n{players.players[trick_winner]} wins this round!")
+            transfer_tricks = input(f"\n{players.players[trick_winner]} would you like to transfer tricks to another player? (yes/no) ")
+            if transfer_tricks.lower() == "yes":
+                transfer = ""
+                while transfer not in players.players:
+                    print("\nSelect player by name: ")
+                    for j, player in enumerate(players.players):
+                        print(f"{j} {player}")
+                    transfer = input()
+                to = players.players.index(transfer)
                 while players.can_update_score(scoreboard, to, (len(cards_played) >= (52 - len(players.players)))) == False:
-                    print(f"\n{players.players[to]} maximum tricks reached. Choose another player.")
-                    to = int(input())
-                players.transfer_win(scoreboard, to, min_card)
+                    transfer = ""
+                    while transfer not in players.players:
+                        print("\nSelect player by name: ")
+                        for j, player in enumerate(players.players):
+                            print(f"{j} {player}")
+                        transfer = input()
+                    to = players.players.index(transfer)
+                players.update_scoreboard(scoreboard, to, min_card)
                 trick_winner = to
             else:
                 to = trick_winner
                 while players.can_update_score(scoreboard, to, (len(cards_played) >= (52 - len(players.players)))) == False:
-                    # print(f"\n{len(cards_played)}\t{len(players.players)}")
-                    print(f"\n{players.players[to]} maximum tricks reached. Choose another player.")
-                    to = int(input())
-                players.update_scoreboard(scoreboard, to, min_card)
+                    print(f"\n{players.players[to]} maximum tricks reached. {players.players[trick_winner]} Choose another player.")
+                    transfer = ""
+                    while transfer not in players.players:
+                        print("\nSelect player by name: ")
+                        for j, player in enumerate(players.players):
+                            print(f"{j} {player}")
+                        transfer = input()
+                    to = players.players.index(transfer)
+                players.transfer_win(scoreboard, to, min_card)
                 trick_winner = to
-            print(f"\n{players.players[trick_winner]} wins with {min_card} points")
+            print(f"\n{players.players[trick_winner]} is awarded {min_card} points")
             # print(f"\nTotal points:\n\t{scoreboard}")
             print("\nCurrent Score:")
-            j = 0
-            for score in scoreboard:
+            for j, score in enumerate(scoreboard):
                 print(f"{j}. {players.players[j]}\t{score[0]}")
-                j += 1
             current_player_index = trick_winner
             min_card = 32
             max_card = 0
             hands_per_trick = (hands_per_trick + 1) % len(players.players)
-            # Remove the selected card from the player's hand
-            # and add the selected card to the list of cards that have been played
-            cards_played.append(hands[i].pop(play_card_index))
+
+            # Print Updated hands
+            print("\nUpdated Hands:")
+            for i in range(len(players.players)):
+                print(f"\n{players.players[i]}")
+                cards.print_cards_pretty(hands[i])
+            # # Remove the selected card from the player's hand
+            # # and add the selected card to the list of cards that have been played
+            # card_played = {}
+            # card_played[current_player] = hands[i].pop(play_card_index)
+            # cards_played.append(card_played)
+            cards_played = []
             continue
             
         hands_per_trick = (hands_per_trick + 1) % len(players.players)
 
         # Remove the selected card from the player's hand
         # and add the selected card to the list of cards that have been played
-        cards_played.append(hands[i].pop(play_card_index))
+        card_played = {}
+        card_played[current_player] = hands[i].pop(play_card_index)
+        cards_played.append(card_played)
+        # cards_played.append(hands[i].pop(play_card_index))
 
         # print the selected card
         print(f"\n{current_player} plays: {play_card}")
+
+        # Print cards played
+        print("\nCards Played:")
+        for each in cards_played:
+            for played, card in each.items():
+                print(f"{played}:\t{card}")
 
         # update the current suit
         if hands_per_trick == 0:
@@ -180,6 +227,7 @@ while game_round > 0 and quit_game == 0:
 
         # update the current player index
         current_player_index = (current_player_index + 1) % len(players.players)
+        # cards_played = []
 
     # determine the winner
     j = 0
@@ -197,26 +245,26 @@ while game_round > 0 and quit_game == 0:
     if max_score >= 60:
         check_sudden_death = True
             
-    if check_sudden_death is True:
-        sudden_death_msg = "\nSudden death"
-        match game_round:
-            case 1:
-                if max_score >= 60:
-                    print(sudden_death_msg)
-                    sudden_death = True
-            case 2:
-                if max_score >= 120:
-                    print(sudden_death_msg)
-                    sudden_death = True
-            case 3:
-                if max_score >= 180:
-                    print(sudden_death_msg)
-                    sudden_death = True
-            case _:
-                sudden_death = False
-                pass
-    if sudden_death == True:
-        break
+    # if check_sudden_death is True:
+    #     sudden_death_msg = "\nSudden death"
+    #     match game_round:
+    #         case 1:
+    #             if max_score >= 60:
+    #                 print(sudden_death_msg)
+    #                 sudden_death = True
+    #         case 2:
+    #             if max_score >= 120:
+    #                 print(sudden_death_msg)
+    #                 sudden_death = True
+    #         case 3:
+    #             if max_score >= 180:
+    #                 print(sudden_death_msg)
+    #                 sudden_death = True
+    #         case _:
+    #             sudden_death = False
+    #             pass
+    # if sudden_death == True:
+    #     break
 
     # Quit or continue to next round
     quit_game = int(input("\n0. Continue\t1. Quit\n"))

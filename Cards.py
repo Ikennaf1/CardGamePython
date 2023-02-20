@@ -21,14 +21,14 @@ class Cards:
     @property
     def deck(self):
         """
-        djfnnf
+        Deck of cards
         """
         return self.__deck
     
     @deck.setter
     def deck():
         """
-        jdfgno
+        Deck of cards
         """
         pass
 
@@ -53,11 +53,14 @@ class Cards:
         return self.__values[card_number]
     
     def print_cards_pretty(self, cards = []):
-        j = 0
         x = 0
         endline = ""
-        for card in cards:
+        for j, card in enumerate(cards):
             print(f"{j}: {card}\t", end=endline)
-            j += 1
             x = (x + 1) % 4
             endline = "\n" if x == 3 else ""
+    
+    def __new__(cls):
+        if not hasattr(cls, 'instance'):
+            cls.instance = super(Cards, cls).__new__(cls)
+        return cls.instance
