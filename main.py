@@ -158,6 +158,7 @@ while game_round > 0 and quit_game == 0:
                     transfer = int(input())
                 to = transfer
                 while players.can_update_score(scoreboard, to, (len(cards_played) >= (52 - len(players.players)))) == False:
+                    print(f"\n{players.players[to]} maximum tricks reached. {players.players[trick_winner]} Choose another player.")
                     transfer = None
                     while transfer not in range(len(players.players)):
                         print("\nSelect player by index: (e.g. 0)")
@@ -176,7 +177,7 @@ while game_round > 0 and quit_game == 0:
                         print("\nSelect player by index: ")
                         for j, player in enumerate(players.players):
                             print(f"{j} {player}")
-                        transfer = input()
+                        transfer = int(input())
                     to = transfer
                 players.transfer_win(scoreboard, to, min_card)
                 trick_winner = to
