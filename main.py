@@ -150,34 +150,34 @@ while game_round > 0 and quit_game == 0:
             print(f"\n{players.players[trick_winner]} wins this round!")
             transfer_tricks = input(f"\n{players.players[trick_winner]} would you like to transfer tricks to another player? (yes/no) ")
             if transfer_tricks.lower() == "yes":
-                transfer = ""
-                while transfer not in players.players:
-                    print("\nSelect player by name: ")
+                transfer = None
+                while transfer not in range(len(players.players)):
+                    print("\nSelect player by index: (e.g. 0)")
                     for j, player in enumerate(players.players):
                         print(f"{j} {player}")
-                    transfer = input()
-                to = players.players.index(transfer)
+                    transfer = int(input())
+                to = transfer
                 while players.can_update_score(scoreboard, to, (len(cards_played) >= (52 - len(players.players)))) == False:
-                    transfer = ""
-                    while transfer not in players.players:
-                        print("\nSelect player by name: ")
+                    transfer = None
+                    while transfer not in range(len(players.players)):
+                        print("\nSelect player by index: (e.g. 0)")
                         for j, player in enumerate(players.players):
                             print(f"{j} {player}")
-                        transfer = input()
-                    to = players.players.index(transfer)
+                        transfer = int(input())
+                    to = transfer
                 players.update_scoreboard(scoreboard, to, min_card)
                 trick_winner = to
             else:
                 to = trick_winner
                 while players.can_update_score(scoreboard, to, (len(cards_played) >= (52 - len(players.players)))) == False:
                     print(f"\n{players.players[to]} maximum tricks reached. {players.players[trick_winner]} Choose another player.")
-                    transfer = ""
-                    while transfer not in players.players:
-                        print("\nSelect player by name: ")
+                    transfer = None
+                    while transfer not in range(len(players.players)):
+                        print("\nSelect player by index: ")
                         for j, player in enumerate(players.players):
                             print(f"{j} {player}")
                         transfer = input()
-                    to = players.players.index(transfer)
+                    to = transfer
                 players.transfer_win(scoreboard, to, min_card)
                 trick_winner = to
             print(f"\n{players.players[trick_winner]} is awarded {min_card} points")
