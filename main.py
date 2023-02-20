@@ -36,6 +36,12 @@ while game_round > 0 and quit_game == 0:
     if game_round == 1:
         print("\nPreliminary Round\n")
     else:
+        # quit_game = 0
+        # round_winner = None
+        # hands = []
+        # hand = []
+        # current_player_index = 0
+
         print(f"\nROUND {game_round}\n")
 
     cards = Cards()
@@ -62,7 +68,7 @@ while game_round > 0 and quit_game == 0:
 
     if game_round > 1 and round_winner is not None:
         current_player_index = round_winner
-        dealer = players.player[round_winner]
+        dealer = players.players[round_winner]
         round_winner = None
     
     # Display dealer
