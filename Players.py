@@ -79,9 +79,9 @@ class Players:
         """
         Updates the ScoreBoard
         """
-        if self.can_update_score(scoreboard, player_id):
-            scoreboard[player_id][0] = scoreboard[player_id][0] + points
-            scoreboard[player_id][1] = scoreboard[player_id][1] + 1
+        # if self.can_update_score(scoreboard, player_id):
+        scoreboard[player_id][0] = scoreboard[player_id][0] + points
+        scoreboard[player_id][1] = scoreboard[player_id][1] + 1
         # else:
         #     print(f"\n{self.players[player_id]} maximum tricks reached.")
         #     self.transfer_win(scoreboard, points)

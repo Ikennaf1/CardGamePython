@@ -157,6 +157,12 @@ while game_round > 0 and quit_game == 0:
                         print(f"{j} {player}")
                     transfer = int(input())
                 to = transfer
+
+                # Check if last card
+                if len(hands[to]) == 0:
+                    players.update_scoreboard(scoreboard, to, min_card)
+                    break
+
                 while players.can_update_score(scoreboard, to, (len(cards_played) >= (52 - len(players.players)))) == False:
                     print(f"\n{players.players[to]} maximum tricks reached. {players.players[trick_winner]} Choose another player.")
                     transfer = None
@@ -170,6 +176,12 @@ while game_round > 0 and quit_game == 0:
                 trick_winner = to
             else:
                 to = trick_winner
+
+                # Check if last card
+                if len(hands[to]) == 0:
+                    players.update_scoreboard(scoreboard, to, min_card)
+                    break
+                
                 while players.can_update_score(scoreboard, to, (len(cards_played) >= (52 - len(players.players)))) == False:
                     print(f"\n{players.players[to]} maximum tricks reached. {players.players[trick_winner]} Choose another player.")
                     transfer = None

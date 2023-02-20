@@ -53,6 +53,9 @@ class Cards:
         return self.__values[card_number]
     
     def print_cards_pretty(self, cards = []):
+        """
+        Prints cards in human readable way
+        """
         x = 0
         endline = ""
         for j, card in enumerate(cards):
