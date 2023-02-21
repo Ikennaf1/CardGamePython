@@ -126,6 +126,9 @@ while game_round > 0 and quit_game == 0:
                 for card in hands[i]:
                     if card[1] == current_suit:
                         has_suit = True
+                if has_suit == False:
+                    current_suit = None
+                    suit_followed = False
             
             if has_suit:
                 print(f"\n{current_player}, you must follow suit.")
@@ -133,9 +136,9 @@ while game_round > 0 and quit_game == 0:
                 play_card_index = None
                 has_suit = False
                 continue
-            else:
-                current_suit = None
-                suit_followed = False
+            # else:
+            #     current_suit = None
+            #     suit_followed = False
 
             if current_suit is None and hands_per_trick == 0:
                 current_suit = play_card[1]
@@ -163,19 +166,19 @@ while game_round > 0 and quit_game == 0:
                     played = played.ljust(15)
                     print(f"{played}:{card}")
             
-            # If suits not followed, determine winner
-            if suit_followed == False:
-                suit_followed = True
-                max_trick_score = 0
-                first_suit = cards_played[0].values()
-                for each in cards_played:
-                    for pl, crd in each.items():
-                        if crd[1] != first_suit[1]
-                            continue
-                        else:
-                            if crd[0] > max_trick_score:
-                                max_trick_score = crd[0]
-                                trick_winner = players.players.index(pl)
+            # # If suits not followed, determine winner
+            # if suit_followed == False:
+            #     suit_followed = True
+            #     max_trick_score = 0
+            #     first_suit = cards_played[0].values()
+            #     for each in cards_played:
+            #         for pl, crd in each.items():
+            #             if crd[1] != first_suit[1]
+            #                 continue
+            #             else:
+            #                 if crd[0] > max_trick_score:
+            #                     max_trick_score = crd[0]
+            #                     trick_winner = players.players.index(pl)
             
             # List players to transfer points to
             print(f"\n{players.players[trick_winner]} wins trick {tricks + 1}!")
