@@ -53,6 +53,7 @@ while game_round > 0 and quit_game == 0:
     # cards.shuffle()
     cards_played = []
     tricks = 0
+    suit_followed = True
 
     # deal first hands and obtain first dealer
     for player in range(len(players.players)):
@@ -134,6 +135,7 @@ while game_round > 0 and quit_game == 0:
                 continue
             else:
                 current_suit = None
+                suit_followed = False
 
             if current_suit is None and hands_per_trick == 0:
                 current_suit = play_card[1]
@@ -160,6 +162,20 @@ while game_round > 0 and quit_game == 0:
                 for played, card in each.items():
                     played = played.ljust(15)
                     print(f"{played}:{card}")
+            
+            # If suits not followed, determine winner
+            if suit_followed == False:
+                suit_followed = True
+                max_trick_score = 0
+                first_suit = cards_played[0].values()
+                for each in cards_played:
+                    for pl, crd in each.items():
+                        if crd[1] != first_suit[1]
+                            continue
+                        else:
+                            if crd[0] > max_trick_score:
+                                max_trick_score = crd[0]
+                                trick_winner = players.players.index(pl)
             
             # List players to transfer points to
             print(f"\n{players.players[trick_winner]} wins trick {tricks + 1}!")
