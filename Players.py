@@ -98,3 +98,23 @@ class Players:
         """        
         self.update_scoreboard(scoreboard, to, points)
 
+    def keep_card(self, cards_played = [], hands2 = []):
+        """
+        During last card, each player keeps the cards they played
+        """
+        for each in cards_played:
+            for player, card in each.items():
+                i = self.players.index(player)
+                hands2[i].append(card)
+        return hands2
+    
+    def exchange_cards(self, cards_played = [], hands2 = []):
+        """
+        Exchanges the max card with min card
+        """
+    
+    def __new__(cls):
+        if not hasattr(cls, 'instance'):
+            cls.instance = super(Players, cls).__new__(cls)
+        return cls.instance
+

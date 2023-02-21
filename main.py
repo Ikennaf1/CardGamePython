@@ -56,18 +56,19 @@ while game_round > 0 and quit_game == 0:
     suit_followed = True
 
     # deal first hands and obtain first dealer
-    for player in range(len(players.players)):
-        card = cards.deal(hand)
-        hands.append(hand)
-        hand = []
-        if min_val > cards.get_card_value(card[0]):
-            min_val = cards.get_card_value(card[0])
-            dealer = players.players[player]
-            dealer_index = player
+    if game_round == 1:
+        for player in range(len(players.players)):
+            card = cards.deal(hand)
+            hands.append(hand)
+            hand = []
+            if min_val > cards.get_card_value(card[0]):
+                min_val = cards.get_card_value(card[0])
+                dealer = players.players[player]
+                dealer_index = player
 
-    current_player_index = dealer_index
-    next_player_index = (current_player_index + 1) % len(players.players)
-    next_player = players.players[next_player_index]
+        current_player_index = dealer_index
+        next_player_index = (current_player_index + 1) % len(players.players)
+        next_player = players.players[next_player_index]
 
     # Display preliminary hands
     for i in range(len(players.players)):
@@ -197,10 +198,11 @@ while game_round > 0 and quit_game == 0:
                     transfer = int(input())
                 to = transfer
 
-                # # Check if last card
-                # if len(hands[to]) == 0:
-                #     players.update_scoreboard(scoreboard, to, min_card)
-                #     break
+                # Check if last card
+                if len(hands[to]) == 0:
+                    players.update_scoreboard(scoreboard, to, min_card)
+                    hands2 = players.keep_card(cards_played, hands2)
+                    break
 
                 while players.can_update_score(scoreboard, to, (len(cards_played) >= (52 - len(players.players)))) == False:
                     print(f"\n{players.players[to]} maximum tricks reached. {players.players[trick_winner]} Choose another player.")
@@ -217,10 +219,11 @@ while game_round > 0 and quit_game == 0:
             else:
                 to = trick_winner
 
-                # # Check if last card
-                # if len(hands[to]) == 0:
-                #     players.update_scoreboard(scoreboard, to, min_card)
-                #     break
+                # Check if last card
+                if len(hands[to]) == 0:
+                    players.update_scoreboard(scoreboard, to, min_card)
+                    hands2 = players.keep_card(cards_played, hands2)
+                    break
                 
                 while players.can_update_score(scoreboard, to, (len(cards_played) >= (52 - len(players.players)))) == False:
                     print(f"\n{players.players[to]} maximum tricks reached. {players.players[trick_winner]} Choose another player.")
