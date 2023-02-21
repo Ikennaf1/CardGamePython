@@ -88,9 +88,18 @@ class Players:
         # if self.can_update_score(scoreboard, player_id):
         scoreboard[player_id][0] = scoreboard[player_id][0] + points
         scoreboard[player_id][1] = scoreboard[player_id][1] + 1
-        # else:
-        #     print(f"\n{self.players[player_id]} maximum tricks reached.")
-        #     self.transfer_win(scoreboard, points)
+    
+    def reset_scoreboard_tricks(self, scoreboard = []):
+        """
+        Resets the tricks on scoreboard
+        """
+        # for player in scoreboard:
+        #     for score in player:
+        #         score[1] = 0
+        scoreboard[0][1] = 0
+        scoreboard[1][1] = 0
+        scoreboard[2][1] = 0
+        scoreboard[3][1] = 0
 
     def transfer_win(self, scoreboard = [], to = 0, points = 0):
         """

@@ -45,6 +45,12 @@ while game_round > 0 and quit_game == 0:
         # round_winner = None
         hands = hands2.copy()
         hands2 = cards.hands2_init(hands2)
+        # players.set_partnerships()
+        # # print partnerships
+        # print("\nPlayer Partnerships:")
+        # for player, partner in players.partnerships.items():
+        #     print(f"\n{player} & {partner}")
+        players.reset_scoreboard_tricks(scoreboard)
         # current_player_index = 0
 
         print(f"\nROUND {game_round}\n")
@@ -202,6 +208,7 @@ while game_round > 0 and quit_game == 0:
                 if len(hands[to]) == 0:
                     players.update_scoreboard(scoreboard, to, min_card)
                     hands2 = players.keep_card(cards_played, hands2)
+                    hands_per_trick = (hands_per_trick + 1) % len(players.players)
                     break
 
                 while players.can_update_score(scoreboard, to, (len(cards_played) >= (52 - len(players.players)))) == False:
@@ -223,6 +230,7 @@ while game_round > 0 and quit_game == 0:
                 if len(hands[to]) == 0:
                     players.update_scoreboard(scoreboard, to, min_card)
                     hands2 = players.keep_card(cards_played, hands2)
+                    hands_per_trick = (hands_per_trick + 1) % len(players.players)
                     break
                 
                 while players.can_update_score(scoreboard, to, (len(cards_played) >= (52 - len(players.players)))) == False:
