@@ -51,12 +51,9 @@ while game_round > 0 and quit_game == 0:
         # for player, partner in players.partnerships.items():
         #     print(f"\n{player} & {partner}")
         players.reset_scoreboard_tricks(scoreboard)
-        # current_player_index = 0
 
         print(f"\nROUND {game_round}\n")
 
-    # cards = Cards()
-    # cards.shuffle()
     cards_played = []
     tricks = 0
     suit_followed = True
@@ -77,8 +74,9 @@ while game_round > 0 and quit_game == 0:
         next_player = players.players[next_player_index]
 
     # Display preliminary hands
-    for i in range(len(players.players)):
-        print(f"\n{players.players[i]}: {hands[i]}")
+    if game_round == 1:
+        for i in range(len(players.players)):
+            print(f"\n{players.players[i]}: {hands[i]}")
 
     if game_round > 1 and round_winner is not None:
         current_player_index = round_winner
@@ -143,9 +141,6 @@ while game_round > 0 and quit_game == 0:
                 play_card_index = None
                 has_suit = False
                 continue
-            # else:
-            #     current_suit = None
-            #     suit_followed = False
 
             if current_suit is None and hands_per_trick == 0:
                 current_suit = play_card[1]
@@ -246,7 +241,7 @@ while game_round > 0 and quit_game == 0:
                 cards.update_hands2(hands2, to, cards_played)
                 trick_winner = to
             print(f"\n{players.players[trick_winner]} is awarded {min_card} points")
-            # print(f"\nTotal points:\n\t{scoreboard}")
+            
             print("\nCurrent Score:")
             for j, score in enumerate(scoreboard):
                 the_player = players.players[j].ljust(15)
@@ -257,18 +252,12 @@ while game_round > 0 and quit_game == 0:
             hands_per_trick = (hands_per_trick + 1) % len(players.players)
             tricks += 1
 
-            # print(f"\nHands2:\t{hands2}")
-
             # Print Updated hands
             print("\nUpdated Hands:")
             for i in range(len(players.players)):
                 print(f"\n{players.players[i]}")
                 cards.print_cards_pretty(hands[i])
-            # # Remove the selected card from the player's hand
-            # # and add the selected card to the list of cards that have been played
-            # card_played = {}
-            # card_played[current_player] = hands[i].pop(play_card_index)
-            # cards_played.append(card_played)
+
             cards_played = []
             continue
             
@@ -279,7 +268,6 @@ while game_round > 0 and quit_game == 0:
         card_played = {}
         card_played[current_player] = hands[i].pop(play_card_index)
         cards_played.append(card_played)
-        # cards_played.append(hands[i].pop(play_card_index))
 
         # print the selected card
         print(f"\n{current_player} plays: {play_card}")
@@ -305,12 +293,10 @@ while game_round > 0 and quit_game == 0:
         print(f"{j}. {the_player}{score[0]}")
     
     # determine the winner
-    # j = 0
     round_winner = 0
     for j, score in enumerate(scoreboard):
         if score[0] > score[round_winner]:
             round_winner = j
-        # j += 1
     if game_round == 1:
         print(f"\nPreliminary Round winner is: {players.players[round_winner]}")
     else:

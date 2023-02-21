@@ -93,9 +93,6 @@ class Players:
         """
         Resets the tricks on scoreboard
         """
-        # for player in scoreboard:
-        #     for score in player:
-        #         score[1] = 0
         scoreboard[0][1] = 0
         scoreboard[1][1] = 0
         scoreboard[2][1] = 0
