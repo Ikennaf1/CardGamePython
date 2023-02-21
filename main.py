@@ -160,7 +160,6 @@ while game_round > 0 and quit_game == 0:
                 for played, card in each.items():
                     played = played.ljust(15)
                     print(f"{played}:{card}")
-            # 
             
             # List players to transfer points to
             print(f"\n{players.players[trick_winner]} wins trick {tricks + 1}!")
@@ -223,7 +222,7 @@ while game_round > 0 and quit_game == 0:
             hands_per_trick = (hands_per_trick + 1) % len(players.players)
             tricks += 1
 
-            print(f"\nHands2:\t{hands2}")
+            # print(f"\nHands2:\t{hands2}")
 
             # Print Updated hands
             print("\nUpdated Hands:")
