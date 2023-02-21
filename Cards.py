@@ -46,12 +46,11 @@ class Cards:
         hands.append(card)
         return card
     
-    def hands2_init(self, hands2):
+    def hands2_init(self, hands2=[]):
         """
         Initialize hands 2
         """
-        for i in range(4):
-            hands2[i].append([])
+        hands2 = [[], [], [], []]
         return hands2
     
     def update_hands2(self, hands2, winner_index, cards_played = []):

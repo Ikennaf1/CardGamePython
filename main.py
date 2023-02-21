@@ -5,8 +5,12 @@ game_round = 1
 quit_game = 0
 round_winner = None
 
+cards = Cards()
+cards.shuffle()
+
 hands = []
 hands2 = []
+hands2 = cards.hands2_init(hands2)
 hand = []
 min_val = 30
 dealer = ""
@@ -39,14 +43,14 @@ while game_round > 0 and quit_game == 0:
     else:
         # quit_game = 0
         # round_winner = None
-        # hands = []
-        # hand = []
+        hands = hands2.copy()
+        hands2 = cards.hands2_init(hands2)
         # current_player_index = 0
 
         print(f"\nROUND {game_round}\n")
 
-    cards = Cards()
-    cards.shuffle()
+    # cards = Cards()
+    # cards.shuffle()
     cards_played = []
     tricks = 0
 
@@ -185,6 +189,7 @@ while game_round > 0 and quit_game == 0:
                         transfer = int(input())
                     to = transfer
                 players.update_scoreboard(scoreboard, to, min_card)
+                cards.update_hands2(hands2, to, cards_played)
                 trick_winner = to
             else:
                 to = trick_winner
@@ -204,6 +209,7 @@ while game_round > 0 and quit_game == 0:
                         transfer = int(input())
                     to = transfer
                 players.transfer_win(scoreboard, to, min_card)
+                cards.update_hands2(hands2, to, cards_played)
                 trick_winner = to
             print(f"\n{players.players[trick_winner]} is awarded {min_card} points")
             # print(f"\nTotal points:\n\t{scoreboard}")
@@ -216,6 +222,8 @@ while game_round > 0 and quit_game == 0:
             max_card = 0
             hands_per_trick = (hands_per_trick + 1) % len(players.players)
             tricks += 1
+
+            print(f"\nHands2:\t{hands2}")
 
             # Print Updated hands
             print("\nUpdated Hands:")
