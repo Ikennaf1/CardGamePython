@@ -46,6 +46,23 @@ class Cards:
         hands.append(card)
         return card
     
+    def hands2_init(self, hands2):
+        """
+        Initialize hands 2
+        """
+        for i in range(4):
+            hands2[i].append([])
+        return hands2
+    
+    def update_hands2(self, hands2, winner_index, cards_played = []):
+        """
+        Updates the next round hands of trick winner with the cards played
+        """
+        for cards in cards_played:
+            for player, card in cards.items():
+                hands2[winner_index].append(card)
+        return hands2
+    
     def get_card_value(self, card_number):
         """
         Gets the card value based on the card number

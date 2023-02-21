@@ -6,6 +6,7 @@ quit_game = 0
 round_winner = None
 
 hands = []
+hands2 = []
 hand = []
 min_val = 30
 dealer = ""
@@ -127,8 +128,10 @@ while game_round > 0 and quit_game == 0:
                 play_card_index = None
                 has_suit = False
                 continue
+            else:
+                current_suit = None
 
-            if current_suit is None:
+            if current_suit is None and hands_per_trick == 0:
                 current_suit = play_card[1]
             
             # Tracks the cards played to get the highest and lowest values
@@ -153,6 +156,7 @@ while game_round > 0 and quit_game == 0:
                 for played, card in each.items():
                     played = played.ljust(15)
                     print(f"{played}:{card}")
+            # 
             
             # List players to transfer points to
             print(f"\n{players.players[trick_winner]} wins trick {tricks + 1}!")
@@ -166,10 +170,10 @@ while game_round > 0 and quit_game == 0:
                     transfer = int(input())
                 to = transfer
 
-                # Check if last card
-                if len(hands[to]) == 0:
-                    players.update_scoreboard(scoreboard, to, min_card)
-                    break
+                # # Check if last card
+                # if len(hands[to]) == 0:
+                #     players.update_scoreboard(scoreboard, to, min_card)
+                #     break
 
                 while players.can_update_score(scoreboard, to, (len(cards_played) >= (52 - len(players.players)))) == False:
                     print(f"\n{players.players[to]} maximum tricks reached. {players.players[trick_winner]} Choose another player.")
@@ -185,10 +189,10 @@ while game_round > 0 and quit_game == 0:
             else:
                 to = trick_winner
 
-                # Check if last card
-                if len(hands[to]) == 0:
-                    players.update_scoreboard(scoreboard, to, min_card)
-                    break
+                # # Check if last card
+                # if len(hands[to]) == 0:
+                #     players.update_scoreboard(scoreboard, to, min_card)
+                #     break
                 
                 while players.can_update_score(scoreboard, to, (len(cards_played) >= (52 - len(players.players)))) == False:
                     print(f"\n{players.players[to]} maximum tricks reached. {players.players[trick_winner]} Choose another player.")
