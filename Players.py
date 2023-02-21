@@ -1,3 +1,5 @@
+import random
+
 class Players:
     """
     PlayersClass
@@ -42,8 +44,12 @@ class Players:
         """
         Set up player partnerships
         """
-        self.__partnerships = {self.__players[0]: self.__players[2],
-                        self.__players[1]: self.__players[3]}
+        # self.__partnerships = {self.__players[0]: self.__players[2],
+        #                 self.__players[1]: self.__players[3]}
+        index = [0, 1, 2, 3]
+        random.shuffle(index)
+        self.__partnerships = {self.__players[index[0]]: self.__players[index[1]],
+                        self.__players[index[2]]: self.__players[index[3]]}
     
     @property
     def partnerships(self):
