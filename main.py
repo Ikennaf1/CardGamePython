@@ -270,6 +270,7 @@ while game_round > 0 and quit_game == 0:
     else:
         print(f"\nRound {game_round} winner is: {players.players[round_winner]}")
     
+    check_sudden_death = False
     max_score = 0
     for score in scoreboard:
         if score[0] > max_score:
@@ -277,26 +278,24 @@ while game_round > 0 and quit_game == 0:
     if max_score >= 60:
         check_sudden_death = True
             
-    # if check_sudden_death is True:
-    #     sudden_death_msg = "\nSudden death"
-    #     match game_round:
-    #         case 1:
-    #             if max_score >= 60:
-    #                 print(sudden_death_msg)
-    #                 sudden_death = True
-    #         case 2:
-    #             if max_score >= 120:
-    #                 print(sudden_death_msg)
-    #                 sudden_death = True
-    #         case 3:
-    #             if max_score >= 180:
-    #                 print(sudden_death_msg)
-    #                 sudden_death = True
-    #         case _:
-    #             sudden_death = False
-    #             pass
-    # if sudden_death == True:
-    #     break
+    if check_sudden_death is True:
+        sudden_death_msg = "\nSudden death. Game Ends!!!"
+        if game_round == 1 and max_score >= 60:
+            print(f"\n{sudden_death_msg}")
+            break
+        elif game_round == 2 and max_score >= 120:
+            print(f"\n{sudden_death_msg}")
+            break
+        elif game_round == 3 and max_score >= 180:
+            print(f"\n{sudden_death_msg}")
+            break
+        elif game_round == 4 and max_score >= 240:
+            print(f"\n{sudden_death_msg}")
+            break
+        else:
+            print("No Sudden Death. Game can continue.\n")
+    else:
+        print("No Sudden Death. Game can continue.\n")
 
     # Quit or continue to next round
     quit_game = int(input("\n0. Continue\t1. Quit\n"))
