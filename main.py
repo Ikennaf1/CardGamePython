@@ -170,7 +170,8 @@ while game_round > 0 and quit_game == 0:
             
             # If suits not followed, determine winner
             if suit_followed == False:
-                suit_followed = True
+                if len(hands[current_player_index]) > 0:
+                    suit_followed = True
                 max_trick_score = 0
                 first_suit = tuple(cards_played[0].values())
                 # print(first_suit)
@@ -202,7 +203,27 @@ while game_round > 0 and quit_game == 0:
                 # Check if last card
                 if len(hands[to]) == 0:
                     players.update_scoreboard(scoreboard, to, min_card)
-                    hands2 = players.keep_card(cards_played, hands2)
+                    if suit_followed == False:
+                        hands2 = players.keep_card(cards_played, hands2)
+                    else:
+                        last_min_card = 32
+                        last_max_card = 0
+                        last_min_player = ""
+                        last_max_player = ""
+                        last_max_index = 0
+                        last_min_index = 0
+                        for lc, last_cards in enumerate(cards_played):
+                            for ply, lstcrd in last_cards.items():
+                                if cards.get_card_value(lstcrd[0]) > last_max_card:
+                                    last_max_card = cards.get_card_value(lstcrd[0])
+                                    last_max_player = ply
+                                    last_max_index = lc
+                                if cards.get_card_value(lstcrd[0]) < last_min_card:
+                                    last_min_card = cards.get_card_value(lstcrd[0])
+                                    last_min_player = ply
+                                    last_min_index = lc
+                        cards_played[last_max_index][last_max_player], cards_played[last_min_index][last_min_player] = cards_played[last_min_index][last_min_player], cards_played[last_max_index][last_max_player]
+                        hands2 = players.keep_card(cards_played, hands2)
                     hands_per_trick = (hands_per_trick + 1) % len(players.players)
                     break
 
@@ -224,7 +245,27 @@ while game_round > 0 and quit_game == 0:
                 # Check if last card
                 if len(hands[to]) == 0:
                     players.update_scoreboard(scoreboard, to, min_card)
-                    hands2 = players.keep_card(cards_played, hands2)
+                    if suit_followed == False:
+                        hands2 = players.keep_card(cards_played, hands2)
+                    else:
+                        last_min_card = 32
+                        last_max_card = 0
+                        last_min_player = ""
+                        last_max_player = ""
+                        last_max_index = 0
+                        last_min_index = 0
+                        for lc, last_cards in enumerate(cards_played):
+                            for ply, lstcrd in last_cards.items():
+                                if cards.get_card_value(lstcrd[0]) > last_max_card:
+                                    last_max_card = cards.get_card_value(lstcrd[0])
+                                    last_max_player = ply
+                                    last_max_index = lc
+                                if cards.get_card_value(lstcrd[0]) < last_min_card:
+                                    last_min_card = cards.get_card_value(lstcrd[0])
+                                    last_min_player = ply
+                                    last_min_index = lc
+                        cards_played[last_max_index][last_max_player], cards_played[last_min_index][last_min_player] = cards_played[last_min_index][last_min_player], cards_played[last_max_index][last_max_player]
+                        hands2 = players.keep_card(cards_played, hands2)
                     hands_per_trick = (hands_per_trick + 1) % len(players.players)
                     break
                 
