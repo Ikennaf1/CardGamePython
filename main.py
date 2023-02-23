@@ -202,9 +202,11 @@ while game_round > 0 and quit_game == 0:
 
                 # Check if last card
                 if len(hands[to]) == 0:
-                    players.update_scoreboard(scoreboard, to, min_card)
+                    # players.update_scoreboard(scoreboard, to, min_card)
                     if suit_followed == False:
+                        print("\nEvery player keeps their cards played.")
                         hands2 = players.keep_card(cards_played, hands2)
+                        players.update_scoreboard(scoreboard, to, min_card)
                     else:
                         last_min_card = 32
                         last_max_card = 0
@@ -222,8 +224,10 @@ while game_round > 0 and quit_game == 0:
                                     last_min_card = cards.get_card_value(lstcrd[0])
                                     last_min_player = ply
                                     last_min_index = lc
+                        print(f"\n{last_max_player} and {last_min_player} exchange cards.")
                         cards_played[last_max_index][last_max_player], cards_played[last_min_index][last_min_player] = cards_played[last_min_index][last_min_player], cards_played[last_max_index][last_max_player]
                         hands2 = players.keep_card(cards_played, hands2)
+                        players.transfer_win(scoreboard, players.players.index(last_min_player), min_card)
                     hands_per_trick = (hands_per_trick + 1) % len(players.players)
                     break
 
@@ -244,9 +248,11 @@ while game_round > 0 and quit_game == 0:
 
                 # Check if last card
                 if len(hands[to]) == 0:
-                    players.update_scoreboard(scoreboard, to, min_card)
+                    # players.update_scoreboard(scoreboard, to, min_card)
                     if suit_followed == False:
+                        print("\nEvery player keeps their cards played.")
                         hands2 = players.keep_card(cards_played, hands2)
+                        players.update_scoreboard(scoreboard, to, min_card)
                     else:
                         last_min_card = 32
                         last_max_card = 0
@@ -264,8 +270,10 @@ while game_round > 0 and quit_game == 0:
                                     last_min_card = cards.get_card_value(lstcrd[0])
                                     last_min_player = ply
                                     last_min_index = lc
+                        print(f"\n{last_max_player} and {last_min_player} exchange cards.")
                         cards_played[last_max_index][last_max_player], cards_played[last_min_index][last_min_player] = cards_played[last_min_index][last_min_player], cards_played[last_max_index][last_max_player]
                         hands2 = players.keep_card(cards_played, hands2)
+                        players.transfer_win(scoreboard, players.players.index(last_min_player), min_card)
                     hands_per_trick = (hands_per_trick + 1) % len(players.players)
                     break
                 
