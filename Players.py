@@ -88,13 +88,39 @@ class Players:
         # if self.can_update_score(scoreboard, player_id):
         scoreboard[player_id][0] = scoreboard[player_id][0] + points
         scoreboard[player_id][1] = scoreboard[player_id][1] + 1
-        # else:
-        #     print(f"\n{self.players[player_id]} maximum tricks reached.")
-        #     self.transfer_win(scoreboard, points)
+    
+    def reset_scoreboard_tricks(self, scoreboard = []):
+        """
+        Resets the tricks on scoreboard
+        """
+        scoreboard[0][1] = 0
+        scoreboard[1][1] = 0
+        scoreboard[2][1] = 0
+        scoreboard[3][1] = 0
 
     def transfer_win(self, scoreboard = [], to = 0, points = 0):
         """
         Give win points to another user
         """        
         self.update_scoreboard(scoreboard, to, points)
+
+    def keep_card(self, cards_played = [], hands2 = []):
+        """
+        During last card, each player keeps the cards they played
+        """
+        for each in cards_played:
+            for player, card in each.items():
+                i = self.players.index(player)
+                hands2[i].append(card)
+        return hands2
+    
+    def exchange_cards(self, cards_played = [], hands2 = []):
+        """
+        Exchanges the max card with min card
+        """
+    
+    def __new__(cls):
+        if not hasattr(cls, 'instance'):
+            cls.instance = super(Players, cls).__new__(cls)
+        return cls.instance
 
